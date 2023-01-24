@@ -1,0 +1,58 @@
+body {
+  display: grid;
+  justify-content: center;
+  grid-template-rows: auto auto;
+  background-color: rgb(88, 88, 88);
+  scrollbar-width: none;
+}
+#box {
+  display: flex;
+  height: 500px;
+  width: 500px;
+  background-color: goldenrod;
+  z-index: 10;
+  text-align: center;
+  align-items: center;
+}
+
+#box p {
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 250px;
+  margin: 0 auto;
+}
+#prev {
+  margin-top: 1px;
+  font-family: sans-serif;
+  font-size: 25px;
+  text-align: justify;
+  min-height: 150px;
+  max-width: 500px;
+  overflow-wrap: normal;
+  overflow-y: scroll;
+  max-height: 50px;
+  border: 3px dotted black;
+  margin: 0;
+  margin-bottom: 5px;
+  color: white;
+}
+#max {
+  font-family: sans-serif;
+  font-size: 100px;
+  text-align: center;
+  min-height: 58px;
+  max-width: 500px;
+  overflow: hidden;
+  max-height: 50px;
+  border: 3px dotted white;
+  margin: 0;
+  margin-bottom: 5px;
+  color: white;
+}
+#max p {
+  margin: 0;
+  font-size: 50px;
+}
+::-webkit-scrollbar {
+  width: 0px;
+}

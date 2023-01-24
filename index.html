@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crack Mode</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="prev"><p id="prevp"></p></div>
+    <div id="max"><p id="maxp">Max Number</p></div>
+    <div id="box"><p id="number">GO</p></div>
+  </body>
+  <script>
+    //Pull elements
+    btn = document.getElementById("box");
+    text = document.getElementById("number");
+    prev = document.getElementById("prevp");
+    max = document.getElementById("maxp");
+
+    //initialize values
+    clicks = 0;
+    ODDS = 100;
+    let maxClicks = 0;
+
+    //Pull data from localstorage
+    let history = JSON.parse(localStorage.getItem("array"));
+    if (history == null) {
+      history = [];
+    }
+
+    //initialize values and text
+    max.innerHTML = "Max: " + Math.max.apply(Math, history);
+    prev.innerHTML = history.join(", ");
+    prev.scrollIntoView(false);
+
+    //set up colors
+    seed = Math.floor(Math.random() * 16777215);
+    btn.style.backgroundColor = "#" + seed.toString(16);
+    text.style.color = `#${invertHex(seed.toString(16))}`;
+
+    //click listener
+    btn.addEventListener("click", (event) => {
+      clicks = crackMode(btn, clicks, ODDS, text, prev, history);
+    });
+
+    //spacebar listener
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        // seed = incColor(btn, seed);
+        event.preventDefault();
+        clicks = crackMode(btn, clicks, ODDS, text, prev, history);
+      }
+    });
+
+    // text.addEventListener("click", (event) => {
+    //   saveData(history);
+    //   console.log("saved");
+    // });
+
+    // function saveData(array) {
+    //   fs.write("data.txt", array.toString(), (err) => {
+    //     if (err) throw err;
+    //   });
+    // }
+
+    //invert color
+    function invertHex(hex) {
+      return (Number(`0x1${hex}`) ^ 0xffffff)
+        .toString(16)
+        .substr(1)
+        .toUpperCase();
+    }
+
+    //process click
+    function crackMode(thing, clicks, odds, text, prev, history) {
+      number = Math.floor(Math.random() * odds);
+      console.log(number);
+      if (number <= 1) {
+        changeColor(thing, text);
+        history.push(clicks);
+        prev.innerHTML = history.join(", ");
+        localStorage.setItem("array", JSON.stringify(history));
+        clicks = 0;
+      }
+      text.innerHTML = clicks;
+      // console.log("updated max to " + Math.max.apply(Math, history));
+      max.innerHTML = "Max: " + Math.max.apply(Math, history);
+      prev.scrollIntoView(false);
+
+      return clicks + 1;
+    }
+
+    //randomize color
+    function changeColor(thing, text) {
+      color = Math.floor(Math.random() * 16777215).toString(16);
+      thing.style.backgroundColor = "#" + color;
+      text.style.color = "#" + invertHex(color);
+    }
+  </script>
+</html>
