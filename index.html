@@ -50,8 +50,22 @@
       if (event.code === "Space") {
         // seed = incColor(btn, seed);
         event.preventDefault();
+        btn.classList.add("spin");
         clicks = crackMode(btn, clicks, ODDS, text, prev, history);
       }
+      // if (!btn.classList.includes("spin")) {
+      // }
+    });
+    document.addEventListener("keyup", (event) => {
+      if (event.code === "Space") {
+        // seed = incColor(btn, seed);
+        event.preventDefault();
+        clicks = crackMode(btn, clicks, ODDS, text, prev, history);
+        btn.classList.remove("spin");
+      }
+      // if (!btn.classList.includes("spin")) {
+
+      // }
     });
 
     // text.addEventListener("click", (event) => {
@@ -87,6 +101,13 @@
       text.innerHTML = clicks;
       // console.log("updated max to " + Math.max.apply(Math, history));
       max.innerHTML = "Max: " + Math.max.apply(Math, history);
+      max.setAttribute(
+        "title",
+        Math.round(Math.pow(0.99, Math.max.apply(Math, history)) * 100000) /
+          1000 +
+          "%"
+      );
+
       prev.scrollIntoView(false);
 
       return clicks + 1;
